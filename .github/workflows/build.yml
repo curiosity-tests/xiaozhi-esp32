@@ -31,7 +31,7 @@ permissions:
 env:
   # The one variable that separates the arms: on baseline, action-checkout
   # skips its Set up Chalk step entirely.
-  CHALK_ON: ${{ github.event_name == 'workflow_dispatch' && inputs.leg != 'baseline' }}
+  CHALK_ON: ${{ inputs.leg == 'instrumented' }}
 
 run-name: "Build Boards ${{ inputs.leg || 'push' }} ${{ inputs.racecar_run }}"
 
@@ -77,7 +77,7 @@ jobs:
         name: Select variants based on changes
         shell: bash
         run: |
-          EVENT_NAME="${{ github.event_name }}"
+          EVENT_NAME="${{ 'push' }}"
 
           # push 到 main 分支，编译全部变体
           if [[ "$EVENT_NAME" == "push" ]]; then
